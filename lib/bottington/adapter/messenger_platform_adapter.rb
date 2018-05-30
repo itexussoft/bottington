@@ -1,8 +1,8 @@
 module Bottington
   module Adapter
     class MessengerPlatformAdapter
-      def initialize(params)
-        @params = params
+      def bot_request
+
       end
 
       protected
