@@ -2,14 +2,18 @@ require "bottington/version"
 
 module Bottington
   class BotMiddleware
-    def initialize(app)
-      @app = app
+    def initialize(app=nil)
+      @app = app || lambda { |_| [404, [], []] }
     end
 
     def call(env)
-      status, headers, response = @app.call(env)
-      # TODO: check from which messenger we get request
-      [status, headers, response_body]
+      request = Rack::Request.new(env)
+      if request.path.start_with?('/bottington')
+        # TODO: check from which messenger we get request
+
+        return [200, [], []]
+      end
+      @app.call(env)
     end
   end
 
