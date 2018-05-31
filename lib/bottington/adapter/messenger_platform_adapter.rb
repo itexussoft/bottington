@@ -8,27 +8,36 @@ module Bottington
       protected
 
       def user
-
+        {
+          id: nil,
+          first_name: '',
+          last_name: '',
+          username: ''
+        }
       end
 
       def chat
-
+        {id: nil}
       end
 
       def command
-
+        {text: ''}
       end
 
       def message
-
+        {text: ''}
       end
 
       def photo
-
+        {}
       end
 
       def document
+        {}
+      end
 
+      def http_method
+        Bottington::HttpClient::HTTP_METHOD_POST
       end
     end
   end
