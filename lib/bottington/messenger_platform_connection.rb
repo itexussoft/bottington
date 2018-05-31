@@ -9,7 +9,7 @@ module Bottington
     end
 
     def send_bot_response
-      # TODO: send response via HttpClient
+      Bottington::HttpClient.instance.send(@params[:http_method], @params[:url], @params.except(:http_method, :url))
     end
   end
 end

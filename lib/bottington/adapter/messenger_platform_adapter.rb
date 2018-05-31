@@ -39,6 +39,10 @@ module Bottington
       def http_method
         Bottington::HttpClient::HTTP_METHOD_POST
       end
+
+      def url
+        nil
+      end
     end
   end
 end

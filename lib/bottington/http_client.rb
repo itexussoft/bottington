@@ -26,11 +26,11 @@ module Bottington
 
     private
 
-    def do_call(url, body)
+    def do_call(http_method, url, body)
       @connection.public_send(http_method.to_sym) do |request|
         request.url(url)
         request.headers['Content-Type'] = 'application/json'
-        request.body = body.to_json
+        request.body = body
       end
     end
   end

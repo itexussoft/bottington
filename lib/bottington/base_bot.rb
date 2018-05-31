@@ -6,7 +6,11 @@ module Bottington
 
     protected
     def answer_with(answer)
-      render json: answer
+      Bottington::MessengerPlatformConnector.new(answer).send_bot_response
+    end
+
+    def keyboard
+
     end
   end
 end

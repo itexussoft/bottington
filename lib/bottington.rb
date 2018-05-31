@@ -15,12 +15,14 @@ module Bottington
 
   class << self
 
-    mattr_accessor :platforms
-    self.platforms = [
-      {telegram_token: ''},
-      {viber_token: ''},
-      {facebook_token: ''},
-    ]
+    mattr_accessor :telegram_token
+    self.telegram_token = ''
+
+    mattr_accessor :viber_token
+    self.viber_token = ''
+
+    mattr_accessor :facebook_token
+    self.facebook_token = ''
   end
 
   def self.setup(&block)

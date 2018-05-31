@@ -11,7 +11,9 @@ module Bottington
           user: user,
           photo: photo,
           document: document,
-          command: command
+          command: command,
+          http_method: http_method,
+          url: url
         }
       end
 
@@ -34,10 +36,6 @@ module Bottington
         {text: @params[:message][:text]}
       end
 
-      def message
-
-      end
-
       def photo
         if @params[:message][:photo]
           {id: @params[:message][:photo].last[:file_id]}
@@ -52,6 +50,10 @@ module Bottington
         else
           {}
         end
+      end
+
+      def url
+        Bottington.telegram_token
       end
     end
   end
