@@ -1,46 +1,19 @@
 module Bottington
   module Adapter
     class MessengerPlatformAdapter
-      def bot_request
-
+      def self.lookup_adapter(request)
+        "#{request.messenger_platform}Adapter".constantize.new(request)
       end
 
-      protected
-
-      def user
-        {
-          id: nil,
-          first_name: '',
-          last_name: '',
-          username: ''
-        }
+      def update_request
+        raise NotImplementedError
       end
 
-      def chat
-        {id: nil}
-      end
-
-      def command
-        {text: ''}
-      end
-
-      def message
-        {text: ''}
-      end
-
-      def photo
-        {}
-      end
-
-      def document
-        {}
-      end
-
-      def http_method
+      def request_method
         Bottington::HttpClient::HTTP_METHOD_POST
       end
 
-      def url
+      def platform_url
         nil
       end
     end

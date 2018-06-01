@@ -1,59 +1,33 @@
 module Bottington
   module Adapter
     class Telegram < MessengerPlatformAdapter
-      def initialize(params)
-        @params = params
+      BASIC_TELEGRAM_URL = "https://api.telegram.org/bot#{Bottington.telegram_token}"
+      GET_FILE_URL = "#{BASIC_TELEGRAM_URL}/getFile?file_id="
+      DOWNLOAD_FILE_URL = "https://api.telegram.org/file/bot#{Bottington.telegram_token}"
+
+      def initialize(request)
+        @request = request
       end
 
-      def bot_request
-        {
-          chat: chat,
-          user: user,
-          photo: photo,
-          document: document,
-          command: command,
-          http_method: http_method,
-          url: url
-        }
+      def update_request
+        @request.user = Bottington::User.new({
+            id: @request[:message][:from][:id],
+            first_name: @request[:message][:from][:first_name],
+            last_name: @request[:message][:from][:last_name],
+            username: @request[:message][:from][:username]
+          })
+        @request.message = Bottington::Message.new({
+            text: @request[:message][:text]
+          })
+        @request.media = Bottington::Media.new({
+            id: @request[:message][:photo] ? @request[:message][:photo].last[:file_id] : @request[:message][:document][:file_id]
+          })
+
+        @request
       end
 
-      protected
-
-      def user
-        {
-          id: @params[:message][:from][:id],
-          first_name: @params[:message][:from][:first_name],
-          last_name: @params[:message][:from][:last_name],
-          username: @params[:message][:from][:username]
-        }
-      end
-
-      def chat
-        {id: @params[:message][:chat][:id]}
-      end
-
-      def command
-        {text: @params[:message][:text]}
-      end
-
-      def photo
-        if @params[:message][:photo]
-          {id: @params[:message][:photo].last[:file_id]}
-        else
-          {}
-        end
-      end
-
-      def document
-        if @params[:message][:document]
-          {id: @params[:message][:document][:file_id]}
-        else
-          {}
-        end
-      end
-
-      def url
-        Bottington.telegram_token
+      def platform_url
+        BASIC_TELEGRAM_URL + "/sendMessage"
       end
     end
   end

@@ -1,11 +1,53 @@
 module Bottington
   class BotDispatcher
-    def initialize()
+    include Singleton
 
+    def dispatch(request)
+      route = RoutesRegister.instance.find(request)
+      if route
+        route.bot.new(request).build_response
+      else
+        raise IndexError, "there is no mapped bots for #{request.bot_path} path"
+      end
+    end
+  end
+
+  class RoutesRegister
+    include Singleton
+
+    def initialize
+      @routes = []
+      @platfroms_stack = []
     end
 
-    def dispatch
-      
+    def map(path, bot)
+      @routes << Route.new(path, bot, @platfroms_stack.last)
     end
+
+    def platform(*args, &block)
+      args.each do |platform|
+        @platfroms_stack.push(platform)
+        block.call
+        @platfroms_stack.pop()
+      end
+    end
+
+    def find(request)
+      @routes.find do |route|
+        route.path == request.bot_path && (route.platform.nil? || route.platform == request.platfrom)
+      end
+    end
+
+    def draw(&block)
+      instance_eval &block
+    end
+
+  end
+
+  class Route < Struct.new(:path, :bot, :platform);end
+
+
+  def self.routes
+    RoutesRegister.instance
   end
 end

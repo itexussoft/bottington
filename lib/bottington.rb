@@ -9,8 +9,8 @@ module Bottington
     def call(env)
       request = Rack::Request.new(env)
       if request.path.start_with?('/bottington')
-        # TODO: check from which messenger we get request
-
+        bottington_request = Bottington::MessengerPlatformConnector.instance.bottington_request(Bottington::Request.new(env))
+        Bottington::BotDispatcher.instance.dispatch(bottington_request)
         return [200, [], []]
       end
       @app.call(env)
