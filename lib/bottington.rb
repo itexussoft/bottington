@@ -8,7 +8,7 @@ module Bottington
 
     def call(env)
       request = Rack::Request.new(env)
-      if request.path.start_with?('/bottington')
+      if request.path.start_with?(Bottington.route_prefix)
         bottington_request = Bottington::MessengerPlatformConnector.instance.bottington_request(Bottington::Request.new(env))
         Bottington::BotDispatcher.instance.dispatch(bottington_request)
         return [200, [], []]
@@ -27,6 +27,9 @@ module Bottington
 
     mattr_accessor :facebook_token
     self.facebook_token = ''
+
+    mattr_accessor :route_prefix
+    self.route_prefix = '/bottington'
   end
 
   def self.setup(&block)

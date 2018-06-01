@@ -16,9 +16,7 @@ module Bottington
             last_name: @request[:message][:from][:last_name],
             username: @request[:message][:from][:username]
           })
-        @request.message = Bottington::Message.new({
-            text: @request[:message][:text]
-          })
+        @request.message = Bottington::Message.new(build_request_message(@request[:message][:text]))
         @request.media = Bottington::Media.new({
             id: @request[:message][:photo] ? @request[:message][:photo].last[:file_id] : @request[:message][:document][:file_id]
           })

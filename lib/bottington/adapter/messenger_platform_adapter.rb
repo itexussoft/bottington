@@ -1,8 +1,14 @@
 module Bottington
   module Adapter
     class MessengerPlatformAdapter
+      # TODO: для адаптеров надо подумать над методами, по созданию кастомной
+      # TODO: клавиатуры, которая будет добавляться по запросу разработчика к
+      # TODO: response
+      MESSAGE_TYPE_ACTION = 'action'
+      MESSAGE_TYPE_TEXT = 'text'
+
       def self.lookup_adapter(request)
-        "#{request.messenger_platform}Adapter".constantize.new(request)
+        "#{request.messenger_platform.camelize}Adapter".constantize.new(request)
       end
 
       def update_request
@@ -15,6 +21,18 @@ module Bottington
 
       def platform_url
         nil
+      end
+
+      private
+      # метод для определения, чем является текст в request.
+      # если есть слэш или в апперкейсе пришёл текст, тогда это будет команда.
+      # иначе, просто текст
+      def build_request_message(text)
+        if /(^\/\w*|([A-Z]{2,}_{1}){1,})/.match?(text)
+          {text: text, type: MESSAGE_TYPE_ACTION}
+        else
+          {text: text, type: MESSAGE_TYPE_TEXT}
+        end
       end
     end
   end
