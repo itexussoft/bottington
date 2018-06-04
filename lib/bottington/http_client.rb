@@ -1,4 +1,5 @@
-# require 'faraday'
+require 'faraday'
+
 module Bottington
   class HttpClient
     include Singleton

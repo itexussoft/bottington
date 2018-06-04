@@ -9,7 +9,7 @@ module Bottington
 
     def send_bot_response(request, response_body)
       adapter = MessengerPlatformAdapter.lookup_adapter(request)
-      Bottington::HttpClient.instance.send(adapter.request_method, adapter.platform_url, response_body)
+      Bottington::HttpClient.instance.send(adapter.request_method, adapter.platform_url, adapter.response_body(request))
     end
   end
 end

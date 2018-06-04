@@ -5,9 +5,7 @@ module Bottington
     def dispatch(request)
       route = RoutesRegister.instance.find(request)
       if route
-        # верно ли я понял твою задумку, когда ты писал `route.bot.new(request).call` ?
-        # как я понял, здесь мы должны сформировать ответ и отправить его в мессенджер
-        route.bot.new(request).build_response
+        route.bot.new(request).call
       else
         raise IndexError, "there is no mapped bots for #{request.bot_path} path"
       end

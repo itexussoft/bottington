@@ -24,9 +24,6 @@ module Bottington
       end
 
       private
-      # метод для определения, чем является текст в request.
-      # если есть слэш или в апперкейсе пришёл текст, тогда это будет команда.
-      # иначе, просто текст
       def build_request_message(text)
         if /(^\/\w*|([A-Z]{2,}_{1}){1,})/.match?(text)
           {text: text, type: MESSAGE_TYPE_ACTION}

@@ -1,4 +1,5 @@
 require "bottington/version"
+require 'singleton'
 
 module Bottington
   class BotMiddleware
