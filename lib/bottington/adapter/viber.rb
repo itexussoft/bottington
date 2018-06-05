@@ -13,11 +13,12 @@ module Bottington
           ''
         )
 
-        @bot_request.chat = Bottington::Chat.new
-
         msg = build_request_message(@request[:message][:text])
-        @bot_request.message = Bottington::Message.new(msg[:text], msg[:type])
+        @bot_request.message = Bottington::Message.new(SecureRandom.hex(10), msg[:text], msg[:type])
+
         @bot_request.media = Bottington::Media.new(@request[:message_token], @request[:message][:media])
+
+        @request
       end
 
       def response_body(bot_request, body, type)

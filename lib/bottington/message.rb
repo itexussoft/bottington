@@ -1,4 +1,4 @@
 module Bottington
-  class Message < Struct.new(:text, :type)
+  class Message < Struct.new(:chat_id, :text, :type)
   end
 end

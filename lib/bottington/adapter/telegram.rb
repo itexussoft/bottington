@@ -20,10 +20,8 @@ module Bottington
           @request[:message][:from][:username]
         )
 
-        @bot_request.chat = Bottington::Chat.new(@request[:message][:chat][:id])
-
         msg = build_request_message(@request[:message][:text])
-        @bot_request.message = Bottington::Message.new(msg[:text], msg[:type])
+        @bot_request.message = Bottington::Message.new(@request[:message][:chat][:id], msg[:text], msg[:type])
 
         media_id = @request[:message][:photo] ? @request[:message][:photo].last[:file_id] : @request[:message][:document][:file_id]
         @bot_request.media = Bottington::Media.new(
@@ -35,7 +33,7 @@ module Bottington
       end
 
       def response_body(bot_request, body, type)
-        {chat_id: bot_request.chat.id, text: body, parse_mode: type}
+        {chat_id: bot_request.message.chat_id, text: body, parse_mode: type}
       end
 
       def platform_url
