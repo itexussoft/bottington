@@ -1,6 +1,9 @@
 module Bottington
   module Adapter
     class Facebook < MessengerPlatformAdapter
+      MESSAGING_TYPE = 'RESPONSE'
+      NOTIFICATION_TYPE = 'REGULAR'
+
       def initialize(request)
         @request = request
       end
@@ -28,7 +31,7 @@ module Bottington
 
       def response_body(bot_request, body, type)
         {
-          messaging_type: 'RESPONSE',
+          messaging_type: MESSAGING_TYPE,
           recipient: {
             id: bot_request.user.id
           },
@@ -36,7 +39,7 @@ module Bottington
             text: body
             }
           },
-          notification_type: 'REGULAR'
+          notification_type: NOTIFICATION_TYPE
       end
 
       def platform_url
