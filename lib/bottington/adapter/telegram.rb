@@ -25,8 +25,10 @@ module Bottington
         msg = build_request_message(@request[:message][:text])
         @bot_request.message = Bottington::Message.new(msg[:text], msg[:type])
 
+        media_id = @request[:message][:photo] ? @request[:message][:photo].last[:file_id] : @request[:message][:document][:file_id]
         @bot_request.media = Bottington::Media.new(
-          @request[:message][:photo] ? @request[:message][:photo].last[:file_id] : @request[:message][:document][:file_id]
+          media_id,
+          GET_FILE_URL + media_id
         )
 
         @request
