@@ -1,9 +1,6 @@
 module Bottington
   module Adapter
     class MessengerPlatformAdapter
-      # TODO: для адаптеров надо подумать над методами, по созданию кастомной
-      # TODO: клавиатуры, которая будет добавляться по запросу разработчика к
-      # TODO: response
       MESSAGE_TYPE_ACTION = 'action'
       MESSAGE_TYPE_TEXT = 'text'
 

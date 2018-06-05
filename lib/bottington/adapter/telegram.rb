@@ -32,17 +32,12 @@ module Bottington
         @request
       end
 
-      def response_body(request)
-        # TODO: create response body for bot: :chat_id, :text, :replay_markup(for keyboards)
+      def response_body(bot_request, body, type)
+        {chat_id: bot_request.chat.id, text: body, parse_mode: type}
       end
 
       def platform_url
         BASIC_TELEGRAM_URL + "/sendMessage"
-      end
-
-      def keyboard(buttons)
-        keyboard_buttons = buttons.map {|b| CustomKeyboard.new(text: b)}
-        [keyboard_buttons]
       end
     end
   end

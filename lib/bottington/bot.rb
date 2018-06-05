@@ -6,15 +6,14 @@ module Bottington
     end
 
     def call
-      # TODO: it's example how use this method
       msg = @bot_request.message
-      if msg.type == 'command'
+      if msg.type == Bottington::Adapter::MessengerPlatformAdapter::MESSAGE_TYPE_ACTION
 
       else
 
       end
 
-      reply :type, response_text, keyboard, @request
+      reply :type, response_text, @request
     end
   end
 end
