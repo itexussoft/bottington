@@ -1,34 +1,32 @@
 module Bottington
   module Adapter
     class MessengerPlatformAdapter
-      def initialize(params)
-        @params = params
+      MESSAGE_TYPE_ACTION = 'action'
+      MESSAGE_TYPE_TEXT = 'text'
+
+      def self.lookup_adapter(request)
+        "#{request.messenger_platform.camelize}Adapter".constantize.new(request)
       end
 
-      protected
-
-      def user
-
+      def update_request
+        raise NotImplementedError
       end
 
-      def chat
-
+      def request_method
+        Bottington::HttpClient::HTTP_METHOD_POST
       end
 
-      def command
-
+      def platform_url
+        nil
       end
 
-      def message
-
-      end
-
-      def photo
-
-      end
-
-      def document
-
+      private
+      def build_request_message(text)
+        if /(^\/\w*|([A-Z]{2,}_{1}){1,})/.match?(text)
+          {text: text, type: MESSAGE_TYPE_ACTION}
+        else
+          {text: text, type: MESSAGE_TYPE_TEXT}
+        end
       end
     end
   end

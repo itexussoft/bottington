@@ -1,12 +1,12 @@
 module Bottington
   class BaseBot
-    def reply
-
+    def call
+      raise NotImplementedError
     end
 
     protected
-    def answer_with(answer)
-      render json: answer
+    def reply(type, msg, request)
+      Bottington::MessengerPlatformConnector.instance.send_bot_response(request, msg, type)
     end
   end
 end
