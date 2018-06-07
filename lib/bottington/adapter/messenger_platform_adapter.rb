@@ -5,7 +5,7 @@ module Bottington
       MESSAGE_TYPE_TEXT = 'text'
 
       def self.lookup_adapter(request)
-        "#{request.messenger_platform.camelize}Adapter".constantize.new(request)
+        "Bottington::Adapter::#{request.messenger_platform.camelize}".constantize.new(request)
       end
 
       def update_request

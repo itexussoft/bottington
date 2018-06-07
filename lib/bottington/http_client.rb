@@ -31,7 +31,7 @@ module Bottington
       @connection.public_send(http_method.to_sym) do |request|
         request.url(url)
         request.headers['Content-Type'] = 'application/json'
-        request.body = body
+        request.body = body.to_json
       end
     end
   end

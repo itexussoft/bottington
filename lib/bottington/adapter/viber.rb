@@ -6,17 +6,18 @@ module Bottington
       end
 
       def update_request
+        @params = @request.params
         @bot_request = @request.bot_request = Bottington::BotRequest.new
         @bot_request.user = Bottington::User.new(
-          @request[:sender][:id],
-          @request[:sender][:name],
+          @params[:sender][:id],
+          @params[:sender][:name],
           ''
         )
 
-        msg = build_request_message(@request[:message][:text])
+        msg = build_request_message(@params[:message][:text])
         @bot_request.message = Bottington::Message.new(SecureRandom.hex(10), msg[:text], msg[:type])
 
-        @bot_request.media = Bottington::Media.new(@request[:message_token], @request[:message][:media])
+        @bot_request.media = Bottington::Media.new(@params[:message_token], @params[:message][:media])
 
         @request
       end
@@ -25,7 +26,7 @@ module Bottington
         {
           auth_token: Bottington.viber_token,
           receiver: @request.bot_request.user.id,
-          type: type,
+          type: type.to_s,
           text: body
         }
       end
