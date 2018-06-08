@@ -9,13 +9,11 @@ module Bottington
       end
 
       def update_request
-        @params = @request.params
+        params = @request.params
         @bot_request = @request.bot_request = Bottington::BotRequest.new()
-        if @params.present?
-          fb_response = @params['entry'][0]['messaging'][0]
-
+        fb_response = params['entry'][0]['messaging'][0]
+        if params.present? && fb_response['delivery'].nil?
           @bot_request.user = Bottington::User.new(fb_response['sender']['id'], '', '', '')
-
           msg = build_request_message(fb_response['message']['text'])
           @bot_request.message = Bottington::Message.new(
             fb_response['message']['mid'],
@@ -35,7 +33,9 @@ module Bottington
       def response_body(bot_request, body, type)
         {
           messaging_type: MESSAGING_TYPE,
-          
+          recipient: {
+            id: bot_request.user ? bot_request.user.id : nil,
+          },
           message: {
             text: body
           },
