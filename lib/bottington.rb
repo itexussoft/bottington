@@ -22,7 +22,7 @@ module Bottington
 
     def call(env)
       request = Rack::Request.new(env)
-      body = ''
+      body = []
       if request.path.start_with?(Bottington.route_prefix)
         bottington_request = Bottington::MessengerPlatformConnector.instance.bottington_request(Bottington::Request.new(env))
         Bottington::BotDispatcher.instance.dispatch(bottington_request)
