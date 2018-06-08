@@ -24,27 +24,14 @@ module Bottington
       request = Rack::Request.new(env)
       body = []
       if request.path.start_with?(Bottington.route_prefix)
-        bottington_request = Bottington::MessengerPlatformConnector.instance.bottington_request(Bottington::Request.new(env))
+        bot_request = Bottington::Request.new(env)
+        body = Bottington::MessengerPlatformConnector.instance.verify_webhook(bot_request)
+        bottington_request = Bottington::MessengerPlatformConnector.instance.bottington_request(bot_request)
         Bottington::BotDispatcher.instance.dispatch(bottington_request)
-        body = verify_facebook_webhook(env)
         return [200, {'Content-Type' => 'application/json'}, body]
       end
       @app.call(env)
     end
-
-    private
-
-    def verify_facebook_webhook(env)
-      value = []
-      if env['QUERY_STRING'].include?('verify_token')
-        env['QUERY_STRING'].split('&').each do |p|
-          splitted_param = p.split('=')
-          value.push(splitted_param.last) if splitted_param.first == 'hub.challenge'
-        end
-      end
-      value
-    end
-
   end
 
   class << self

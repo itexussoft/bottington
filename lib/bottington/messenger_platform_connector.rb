@@ -11,5 +11,10 @@ module Bottington
       adapter = Adapter::MessengerPlatformAdapter.lookup_adapter(request)
       Bottington::HttpClient.instance.send(adapter.request_method, adapter.platform_url, adapter.response_body(request.bot_request, response, type))
     end
+
+    def verify_webhook(request)
+      adapter = Adapter::MessengerPlatformAdapter.lookup_adapter(request)
+      adapter.verify_webhook_url(request.env)
+    end
   end
 end

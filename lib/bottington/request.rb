@@ -13,8 +13,7 @@ module Bottington
 
     # Bottington::Request doesn't return params by some reasons
     def params
-      # binding.pry
-      params = self.body.blank? || self.body.nil? ? {} : JSON.parse(self.body.read)
+      params = self.body.is_a?(Puma::NullIO) || self.body.blank? ? {} : JSON.parse(self.body.read)
       self.env["rack.input"] = StringIO.new(params.to_json)
       params
     end
@@ -28,6 +27,3 @@ module Bottington
     end
   end
 end
-
-# @params = JSON.parse(env['rack.input'].read)
-# @env["rack.input"] = StringIO.new(Rack::Utils.build_query(@params))

@@ -20,6 +20,10 @@ module Bottington
         nil
       end
 
+      def verify_webhook_url(env)
+        []
+      end
+
       private
       def build_request_message(text)
         if /(^\/\w*|([A-Z]{2,}_{1}){1,})/.match?(text)
