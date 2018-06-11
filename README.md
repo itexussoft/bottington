@@ -1,3 +1,7 @@
+# Bottington
+Itexus bot framework that works with Telegram, Facebook Messenger, Viber(in future)
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -14,13 +18,54 @@ Or install it yourself as:
 
     $ gem install bottington
 
-## Usage
+## Configuration
 
-TODO: Write usage instructions here
+Place .rb into the ```/config/initializers``` folder and configure framework like that:
 
-## Contributing
+```ruby
+Bottington.setup do |config|
+  config.telegram_token = 'TELEGRAM_TOKEN_HERE'
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/bottington. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+  config.facebook_token = 'FACEBOOK_TOKEN_HERE'
+  config.fb_verify_token = 'verify'
+
+  config.route_prefix = '/bottington'
+end
+```
+After that you should place Bottington routes into ```/config/routes.rb```:
+
+```ruby
+Rails.application.routes.draw do
+  # HERE YOUR OTHER ROUTES
+
+  # Below routes for bots
+  post '/bottington/telegram/pizza', to: 'bot_requests#telegram_pizza'
+  post '/bottington/facebook/pizza', to: 'bot_requests#facebook_pizza'
+
+  post '/bottington/telegram/coffee', to: 'bot_requests#telegram_coffee'
+end
+
+Bottington.routes.draw do
+  platform :telegram, :facebook do
+    map '/pizza', PizzaBot
+  end
+
+  platform :telegram do
+    map '/coffee', CoffeeBot
+  end
+end
+```
+
+And in the end you write your own Bot like that:
+
+```ruby
+class PizzaBot < Bottington::BaseBot
+  def call
+    # generate some response for bot
+    reply(:text, response, @request)
+  end
+end
+```
 
 ## License
 
