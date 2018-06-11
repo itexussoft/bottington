@@ -1,5 +1,9 @@
 module Bottington
   class BaseBot
+    def initialize(request)
+      @request = request
+    end
+
     def call
       raise NotImplementedError
     end

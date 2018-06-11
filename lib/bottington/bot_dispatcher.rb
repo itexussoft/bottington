@@ -17,24 +17,24 @@ module Bottington
 
     def initialize
       @routes = []
-      @platfroms_stack = []
+      @platforms_stack = []
     end
 
     def map(path, bot)
-      @routes << Route.new(path, bot, @platfroms_stack.last)
+      @routes << Route.new(path, bot, @platforms_stack.last)
     end
 
     def platform(*args, &block)
       args.each do |platform|
-        @platfroms_stack.push(platform)
+        @platforms_stack.push(platform)
         block.call
-        @platfroms_stack.pop()
+        @platforms_stack.pop()
       end
     end
 
     def find(request)
       @routes.find do |route|
-        route.path == request.bot_path && (route.platform.nil? || route.platform == request.platfrom)
+        route.path.gsub(/\//, '') == request.bot_path.first && (route.platform.nil? || route.platform == request.messenger_platform.to_sym)
       end
     end
 
