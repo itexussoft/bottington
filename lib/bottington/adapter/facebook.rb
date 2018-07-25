@@ -43,7 +43,7 @@ module Bottington
         }
       end
 
-      def platform_url
+      def platform_url(bot_request, body, type)
         "https://graph.facebook.com/v2.6/me/messages?access_token=#{Bottington.facebook_token}"
       end
 

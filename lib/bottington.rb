@@ -49,6 +49,12 @@ module Bottington
 
     mattr_accessor :route_prefix
     self.route_prefix = '/bottington'
+
+    mattr_accessor :vk_token
+    self.vk_token = ''
+
+    mattr_accessor :vk_confirmation
+    self.vk_confirmation = 'verify'
   end
 
   def self.setup(&block)

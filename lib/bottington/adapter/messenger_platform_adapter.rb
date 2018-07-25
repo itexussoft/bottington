@@ -16,7 +16,7 @@ module Bottington
         Bottington::HttpClient::HTTP_METHOD_POST
       end
 
-      def platform_url
+      def platform_url(bot_request, body, type)
         nil
       end
 
