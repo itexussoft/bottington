@@ -13,7 +13,7 @@ module Bottington
         @bot_request = @request.bot_request = Bottington::BotRequest.new()
         if !params.empty? && params['entry'][0]['messaging'][0]['delivery'].nil?
           fb_response = params['entry'][0]['messaging'][0]
-          @bot_request.user = Bottington::User.new(fb_response['sender']['id'], '', '', '')
+          @bot_request.user = Bottington::User.new(fb_response['sender']['id'], '', '', '', :facebook)
           msg = build_request_message(fb_response['message']['text'])
           @bot_request.message = Bottington::Message.new(
             fb_response['message']['mid'],

@@ -11,7 +11,8 @@ module Bottington
         @bot_request.user = Bottington::User.new(
           @params[:sender][:id],
           @params[:sender][:name],
-          ''
+          '', '',
+          :viber
         )
 
         msg = build_request_message(@params[:message][:text])
