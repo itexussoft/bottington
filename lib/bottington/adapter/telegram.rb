@@ -14,7 +14,8 @@ module Bottington
           @params['message']['from']['id'],
           @params['message']['from']['first_name'],
           @params['message']['from']['last_name'],
-          @params['message']['from']['username']
+          @params['message']['from']['username'],
+          :telegram
         )
         msg = build_request_message(@params['message']['text'])
         @bot_request.message = Bottington::Message.new(@params['message']['chat']['id'], msg[:text], msg[:type])
