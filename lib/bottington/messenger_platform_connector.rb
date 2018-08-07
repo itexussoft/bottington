@@ -9,7 +9,7 @@ module Bottington
 
     def send_bot_response(request, response, type = :text)
       adapter = Adapter::MessengerPlatformAdapter.lookup_adapter(request)
-      Bottington::HttpClient.instance.send(adapter.request_method, adapter.platform_url, adapter.response_body(request.bot_request, response, type))
+      Bottington::HttpClient.instance.send(adapter.request_method, adapter.platform_url(request.bot_request, response, type), adapter.response_body(request.bot_request, response, type))
     end
 
     def verify_webhook(request)
